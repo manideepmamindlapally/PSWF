@@ -1,0 +1,279 @@
+%
+% LaTeX report template 
+%
+\documentclass[a4paper,10pt]{article}
+\usepackage{graphicx}
+\usepackage[english]{babel}
+\usepackage[latin1]{inputenc}
+\usepackage{subcaption}
+\usepackage{amssymb}
+\usepackage{amsmath}
+%\usepackage{printlen}
+%
+%---------------------------------------------------------
+\setlength{\voffset}{-50pt}
+\setlength{\textheight}{698pt}
+\setlength{\hoffset}{-20pt}
+\setlength{\textwidth}{385pt}
+
+
+
+\begin{document}
+%
+   \title{{ 
+   \textsc{Digital Communication} } \\
+   \textsc{Assignment I} \\
+   \Large{\textsc{Finite Basis expansion of Time truncated Band limited signals}}}
+
+   \author{ 
+   	Manideep Mamindlapally
+   	\\ (17EC10028)}
+          
+   \date{}
+%   \printlength\textheight
+   \maketitle
+    
+\section*{Introduction}
+Through this study we wish to find a finite orthogonal set of basis functions which we expect to be orthonormal in the finite time domain. This basis shall be useful in representing a band-limited time-truncated signal as we shall see. The study aims at \\
+(i) Generating the basis set of functions.\\
+(ii) Proving the orthonormality of functions in the finite time domain.\\
+(iii) Showing the eigen property of the function over the $BD$ operation. \\
+(iv) Using the generated basis set to project an $L2$ function. \\
+ 
+
+\section{The Prolate Spheroidal Wave Functions}
+We wish to find a set of basis functions which are orthogonal in the finite time interval $[-T/2, T/2]$. For our study we fix $T=2$. An implementation of the design of the corresponding prolate spheroidal wave functions(PSWFs) was carried out according to [1], [3]. The following are the equations used to generate the PSWFs. The details of derivation are avoided for simplicity purpose.
+\begin{align}
+\psi_n(c, t) &=  \kappa_n  \sqrt{ \frac{\lambda_n(c)}{t_0 N_n} }\sum_{r=0,1}^{M(n)} (-1)^{\frac{r-n}{2}} d_r^{0n} j_r \left(\frac{ct}{t_0}\right) \\
+\kappa_n &=  \begin{cases} 
+      \frac{n!}{2^n ( \frac{n}{2})!  d_0^{0n} }  & n \text{ even} \\
+      \frac{3 (n+1)!}{2^n ( \frac{n-1}{2})! ( \frac{n+1}{2} )! c d_1^{0n} } & n \text{ odd}
+   \end{cases} \nonumber \\
+\lambda_n &=  \begin{cases}
+				\frac{2c}{\pi} \left( \frac{2^n d_0^{0n} ( \frac{n}{2})! }{n!} \right)^2 & n \text{ even} \nonumber \\
+				\frac{2c}{\pi} \left( \frac{2^n d_1^{0n} c ( \frac{n-1}{2})! ( \frac{n+1}{2})! }{3(n+1)!} \right)^2 & n \text{ odd}
+   \end{cases} \nonumber \\
+N_n &= 2 \sum_{r=0,1}^{M(n)} \frac{(d_r^{0n})^2}{2r+1} \nonumber
+\end{align} 
+The values of $d_r^{0n}$ were obtained from [2]. Accordingly, a MATLAB function was scripted to generate PSWFs for a given bandwidth $\Omega$ in \texttt{pswf.m}. The eigen values $\lambda_n$ for computed and recorded for $n = 0(1)4$ and $c = $ 0.5, 1, 2, 4.
+\begin{center}
+\textsc{The eigen values of the PSWFs}
+\end{center}
+
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+$c$ & $\lambda_0$ & $\lambda_1$ & $\lambda_2$ & $\lambda_3$ & $\lambda_4$ \\
+\hline
+\multicolumn{1}{|l|}{0.5} & \multicolumn{1}{l|}{0.3097} & \multicolumn{1}{l|}{0.0086} & \multicolumn{1}{l|}{0.0000} & \multicolumn{1}{l|}{0.0000} & \multicolumn{1}{l|}{0.0000} \\ \hline
+\multicolumn{1}{|l|}{1}   & \multicolumn{1}{l|}{0.5726} & \multicolumn{1}{l|}{0.0628} & \multicolumn{1}{l|}{0.0012} & \multicolumn{1}{l|}{0.0000} & \multicolumn{1}{l|}{0.0000} \\ \hline
+\multicolumn{1}{|l|}{2}   & \multicolumn{1}{l|}{0.8809} & \multicolumn{1}{l|}{0.3559} & \multicolumn{1}{l|}{0.0360} & \multicolumn{1}{l|}{0.0012} & \multicolumn{1}{l|}{0.0000} \\ \hline
+\multicolumn{1}{|l|}{4}   & \multicolumn{1}{l|}{1.0076} & \multicolumn{1}{l|}{0.9346} & \multicolumn{1}{l|}{0.5759} & \multicolumn{1}{l|}{0.1213} & \multicolumn{1}{l|}{0.0118} \\ \hline
+
+\end{tabular}
+\end{center}
+
+The following are the plots of the obtained PSWFs $\psi_n(x)$ for different $c$. The plots on the left correspond to even values of $n$ while those on the right correspond to the odd values. The intensity of the blue and red colour decreases with increasing $n$.
+
+\begin{center}
+\includegraphics[width=0.49\textwidth]{"c0.5_e.jpg"}
+\includegraphics[width=0.49\textwidth]{"c0.5_o.jpg"}
+\small{$c$ = 0.5}
+
+\includegraphics[width=0.49\textwidth]{"c1_e.jpg"}
+\includegraphics[width=0.49\textwidth]{"c1_o.jpg"}
+\small{$c$ = 1}
+
+\includegraphics[width=0.49\textwidth]{"c2_e.jpg"}
+\includegraphics[width=0.49\textwidth]{"c2_o.jpg"}
+\small{$c$ = 2}
+
+\includegraphics[width=0.49\textwidth]{"c4_e.jpg"}
+\includegraphics[width=0.49\textwidth]{"c4_o.jpg"}
+\small{$c$ = 4}
+
+\textbf{Fig 1}
+\end{center}
+
+\section{Orthogonality of the PSWFs}
+We expect $\psi_n(x)$ to be orthonormal in the infinite domain and orthogonal in the finite domain. The following is the digital implementation for $F_s = 1000 Hz$. For this and the following discussion we fix $c=4$.
+
+\begin{align}
+\int_{-\infty}^{\infty}\psi_{n_1}(x) \psi_{n_2}^*(x) dx &= \delta_{n_1n_2} \nonumber \\
+=> \sum_{x=-10F_s}^{10F_s} \psi_{n_1}(x/F_s) \psi_{n_2}^*(x) \frac{1}{F_s} &\approx \delta_{n_1n_2} \nonumber \\
+\int_{-1}^{1}\psi_{n_1}(x) \psi_{n_2}^*(x) dx &= \alpha_{n_1n_2} \nonumber \\
+=> \sum_{x=-F_s/2}^{F_s/2} \psi_{n_1}(x/F_s) \psi_{n_2}^*(x) \frac{1}{F_s} &\approx \alpha_{n_1n_2} \nonumber
+\end{align}
+
+We expect $\delta_{ij}=1$ for $i=j$ and 0 for $i\neq j$. Similarly $\alpha_{ij} = 0$ for $i\neq j$. The following are the matrix inner product values obatined from the MATLAB code.
+
+\begin{center}
+\textsc{The inner product in the infinite domain}
+\end{center}
+
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+ & $\psi_0$ & $\psi_1$ & $\psi_2$ & $\psi_3$ & $\psi_4$ \\
+\hline
+$\psi_0$  & 0.8196  & 0.0000  & 0.0138  & 0.0000  & -0.0203 \\ \hline
+$\psi_1$ & 0.0000  & 0.8221  & 0.0000  & 0.0302  & 0.0000  \\ \hline
+$\psi_2$ & 0.0138  & 0.0000  & 0.7225  & -0.0000 & 0.0436  \\ \hline
+$\psi_3$ & 0.0000  & 0.0302  & -0.0000 & 0.7532  & 0.0000  \\ \hline
+$\psi_4$ & -0.0203 & -0.0000 & 0.0436  & -0.0000 & 0.8531  \\ \hline
+
+
+\end{tabular}
+\end{center}
+
+\begin{center}
+\textsc{The inner product in the finite domain [$-T/2$,$T/2$]}
+\end{center}
+
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+ & $\psi_0$ & $\psi_1$ & $\psi_2$ & $\psi_3$ & $\psi_4$ \\
+  \hline
+$\psi_0$ & 0.7526 & 0.0000  & 0.1476  & 0.0001  & 0.0009  \\ \hline
+$\psi_1$ & 0.0000 & 0.6618  & -0.0001 & 0.2379  & -0.0001 \\ \hline
+$\psi_2$ & 0.1476 & -0.0001 & 0.4187  & -0.0004 & 0.1281  \\ \hline
+$\psi_3$ & 0.0001 & 0.2379  & -0.0004 & 0.1825  & -0.0002 \\ \hline
+$\psi_4$ & 0.0009 & -0.0001 & 0.1281  & -0.0002 & 0.0506  \\ \hline
+
+\end{tabular}
+\end{center}
+
+
+\section{BD operation on PSWFs}
+We would now check the band limited time truncated characteristics of the obtained PSWFs. We want to check if $\psi_n$ is an eigen function of the BD  operation.
+
+\begin{align}
+\int_{-\Omega}^{\Omega} e^{j\omega  x} \int_{-T/2}^{T/2} e^{-j\omega  t} \psi_n(t) dt d\omega &= \int_{-\Omega}^{\Omega} \int_{-T}^{T} e^{j\omega  x} e^{-j\omega  t} \psi_n(t) dt d\omega \nonumber \\
+&= \int_{-T}^{T} \psi_n(t) \int_{-\Omega}^{\Omega} e^{j\omega  (x-t)} d\omega dt \nonumber\\
+&= \int_{-T}^{T} \psi_n(t) \frac{sin\Omega(x-t)}{\pi (x-t)} dt \nonumber \\
+\int_{-T}^{T} \psi_n(t) \frac{sin\Omega(x-t)}{\pi (x-t)} dt  &\approx \lambda_n \psi_n(t)
+\end{align}
+The obtained $BD \psi_n(x)$ and the corresponding $\lambda_n(x)\psi_n(x)$ and plotted here for all $n$.
+
+\begin{center}
+\includegraphics[width=0.49\textwidth]{"BD_1.jpg"}
+\includegraphics[width=0.49\textwidth]{"BD_2.jpg"}
+
+\includegraphics[width=0.49\textwidth]{"BD_3.jpg"}
+\includegraphics[width=0.49\textwidth]{"BD_4.jpg"}
+
+\textbf{Fig 2}
+\end{center}
+
+\section{Basis expansion of a finite time domain signal}
+An L2 time signal $x(t) = \frac{sin(\pi t)}{\pi*t} $ was truncated in $[-T/2,T/2]$ and and expanded in the basis of the first five PSWFs. The 5 dimensional projection $\vec{gamma}$ is then used to generate a reconstructed signal $x_r(t)$.
+
+\begin{align*}
+\gamma_n &= \int_T x(t) \psi_n^* (t) \\
+x_r(t) &= \sum_n \gamma_n \psi_n (t)
+\end{align*}
+
+The same was performed for $c =$ 0.5, 1 2, 4. The reconstructed signals for the time limited signal and the infinite time signal were recorded and the reconstruction energy ratio was determined.
+
+\begin{center}
+\textsc{Reconstruction energy ratio}
+\end{center}
+
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+Timilimited signal & 0.1929 & 0.7447 & 2.5000 & 4.7211 \\ \hline
+Infinite signal & 0.0709 & 0.1514 & 0.2934 & 0.4308 \\ \hline
+\end{tabular}
+\end{center}
+
+\begin{center}
+\textsc{$\gamma_n$ for time limited signal}
+\end{center}
+
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+$c$ & $\gamma_0$ & $\gamma_1$ & $\gamma_2$ & $\gamma_3$ & $\gamma_4$ \\\hline
+0.5 & 0.3320 & 0.0000 & 0.0005 & 0.0000 & 0.0000 \\ \hline
+1   & 0.4665 & 0.0000 & 0.0030 & 0.0000 & 0.0000 \\ \hline
+2   & 0.6371 & 0.0000 & 0.0163 & 0.0000 & 0.0001 \\ \hline
+3   & 0.7643 & 0.0000 & 0.0748 & 0.0000 & 0.0028 \\ \hline
+\end{tabular}
+\end{center}
+
+\begin{center}
+\textsc{$\gamma_n$ for infinite time signal}
+\end{center}
+
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+$c$ & $\gamma_0$ & $\gamma_1$ & $\gamma_2$ & $\gamma_3$ & $\gamma_4$ \\\hline
+0.5 & 0.2807 & 0.0000 & -0.0033 & 0.0000 & -0.0005 \\ \hline
+1   & 0.4001 & 0.0000 & -0.0024 & 0.0000 & -0.0046 \\ \hline
+2   & 0.5567 & 0.0000 & -0.0022 & 0.0000 & 0.0039  \\ \hline
+3   & 0.7241 & 0.0000 & 0.0025  & 0.0000 & -0.0037 \\ \hline
+\end{tabular}
+
+\end{center}
+
+
+The following are the plots of the reconstructed signal with respect to the original ones for time limited and infinite time cases. The ones on the left correspond to the former while those on the right correspond to the latter.
+\begin{center}
+\includegraphics[width=0.49\textwidth]{"recon_tl_0.5.jpg"}
+\includegraphics[width=0.49\textwidth]{"recon_0.5.jpg"}
+\small{$c$ = 0.5}
+
+\includegraphics[width=0.49\textwidth]{"recon_tl_1.jpg"}
+\includegraphics[width=0.49\textwidth]{"recon_1.jpg"}
+\small{$c$ = 1}
+
+\includegraphics[width=0.49\textwidth]{"recon_tl_2.jpg"}
+\includegraphics[width=0.49\textwidth]{"recon_2.jpg"}
+\small{$c$ = 2}
+
+\includegraphics[width=0.49\textwidth]{"recon_tl_4.jpg"}
+\includegraphics[width=0.49\textwidth]{"recon_4.jpg"}
+\small{$c$ = 4}
+
+\textbf{Fig 3}
+\end{center}
+
+\section*{Discussion}
+\begin{itemize}
+	\item{A set of prolate spheroidal wave functions were generated using the references [1], [2] and [3]. The obtained eigen values were succesfully verified from the tables in [4].}
+	\item{An increase in the constant $c$ saw generation of closer spaced PSWFs. This is attributed to the inclusion of higher frequency component,  allowed by the corresponding increase in $\Omega$.}
+	\item{All realisations and results were a result of a discrete digital implementation of the continuous analog equations. As a result the orthonormality and orthogonality in the finite and infinite domains couldn't be completely proven.}
+	\item{An inner product over an infinite duration would require infinite digital memory and time delay. However, the inner product over a finitely long duration $[-20T,20T]$ was determined and was found to have close to orthogonal characteristics.}
+	\item{The eigen property of the PSWFs over the $BD$ operation was tested by plotting the $BD \psi_n$ and $\lambda_n \psi_n$ functions. The graphs seemed to almost perfectly trace each other for the first three basis functions. However, the characteristic ceased to hold true for higher basis.}
+	\item{On applying the transformation of basis for an $L2$ sinc function signal, only an inefficient regeneration was achieved for the used $c$. The performance, however, seemed to improve with increasing $c$. This allowed for a larger bandwidth, $\Omega$ to represent the basis.} 
+\end{itemize}
+
+
+\begin{thebibliography}{9}
+\bibitem{lamport94}
+  Ian C. Moore, Michael Cada,
+  \textit{Prolate spheroidal wave functions, an introduction to the Slepian series and its properties},
+  ELSEVIER,
+  2004.
+
+\bibitem{lamport94}
+  S. Zhang, J.M. Jin,
+  \textit{Computation of Special Functions},
+  Wiley, New York, 1996.
+  
+\bibitem{lamport94}
+  R.B. Frieden,
+  \textit{Evaluation, design and extrapolation methods for optical signals, based on use of the prolate functions},
+  Progress in Optics 9 (1971) 313-406.
+  
+\bibitem{lamport94}
+	D. Selpian, H.O Pollak
+	\textit{Prolate spheroidal wave functions, Fourier analysis, and uncertainty-I}
+	Bell Syst. Techn. J. 40(1961) 43-63.
+\end{thebibliography} 
+
+\end{document}
+
